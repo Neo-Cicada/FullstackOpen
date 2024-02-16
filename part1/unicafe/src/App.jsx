@@ -1,34 +1,59 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+const StaticLine = (props) => <tr><td>{props.text}  {props.stats}</td></tr>
+
+const Statistics = (props) => {
+
+  if (props.total <= 0) {
+    return <div><h1>statistics</h1> <p>No feedback given</p></div>
+  }
+
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <table>
+      <thead>
+        <tr>
+          <td> <h1>Statistic</h1></td>
+        </tr>
+      </thead>
+      <tbody>
+        <StaticLine text={"good"} stats={props.good} />
+        <StaticLine text={"neutral"} stats={props.neutral} />
+        <StaticLine text={"bad"} stats={props.bad} />
+        <StaticLine text={"all"} stats={props.all} />
+        <StaticLine text={"average"} stats={props.average} />
+        <StaticLine text={"positive"} stats={props.postive + "%"} />
+      </tbody>
+    </table>
+  )
+}
+
+const Button = (props) => <button onClick={props.onClick}>{props.text}</button>
+
+
+
+
+
+
+
+const App = () => {
+  // save clicks of each button to its own state
+  const [good, setGood] = useState(0)
+  const [neutral, setNeutral] = useState(0)
+  const [bad, setBad] = useState(0)
+  let total = parseInt(good + neutral + bad);
+  let average = (good * 1 + neutral * 0 + bad * -1) / total;
+  let postive = good / total;
+  return (
+    <div>
+      <h1>give feedback</h1>
+      <Button onClick={() => setGood(good + 1)} text={"Good"} />
+      <Button onClick={() => setNeutral(neutral + 1)} text={"Neutral"} />
+      <Button onClick={() => setBad(bad + 1)} text={"Bad"} />
+
+      <Statistics good={good} neutral={neutral} bad={bad} total={total} average={average} postive={postive} />
+
+    </div>
   )
 }
 

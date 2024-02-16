@@ -3,7 +3,7 @@
   const App = () => {
     const [selected, setSelected] = useState(0)
     const [vote, setVote] = useState({
-      '0': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0
+      '0': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0,
     });
     const maxKey = Object.keys(vote).reduce((a, b) => vote[a] > vote[b] ? a : b);
     const anecdotes = [

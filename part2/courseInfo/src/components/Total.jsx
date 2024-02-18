@@ -1,14 +1,14 @@
 const Total = (props) => {
     const parts = props.parts
     const total = parts.reduce((t, p) => {
-        if(p.exercises){
+        if (p.exercises) {
             return t + p.exercises;
-        }else{
+        } else {
             return t;
         }
     }, 0)
     return (
-        <p>Number of exercises {total}</p>
+        <p><b>Number of exercises {total}</b></p>
     )
 }
 

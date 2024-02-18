@@ -1,15 +1,14 @@
 import Header from './Header'
 import Content from './Content'
-import Total from './Total'
-
+import Nodejs from './Nodejs'
 const Course = ({ course }) => {
-    console.log(course)
     return (
         <div>
             <Header course={course.name} />
             <Content
                 pars={course.parts}
             />
+            <Nodejs course={course.parts[4]} />
         </div>
     )
 }

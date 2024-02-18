@@ -1,7 +1,14 @@
 const Total = (props) => {
-    console.log(props)
+    const parts = props.parts
+    const total = parts.reduce((t, p) => {
+        if(p.exercises){
+            return t + p.exercises;
+        }else{
+            return t;
+        }
+    }, 0)
     return (
-        <p>Number of exercises {props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises}</p>
+        <p>Number of exercises {total}</p>
     )
 }
 

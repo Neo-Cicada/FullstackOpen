@@ -1,6 +1,7 @@
 const express = require('express') //import express
 const app = express() // initialized express
-
+const PORT = 3001 //initilized what port we will use
+app.use(express.json()); // this 
 let phoneBook = [ //initilizing dummy data
     { 
       "id": 1,
@@ -50,8 +51,25 @@ app.delete("/api/persons/:id", (req, res)=>{
     phoneBook = phoneBook.filter(item => item.id !== id)
     res.status(204).end() //status response
 })
+app.post("/api/persons", (req, res)=>{
+  const {name, number} = req.body;
+  const id = Math.floor(Math.random()* 10000)
+  if(!name) return res.status(500).json({error: "name is required"})
+  
+  if(!number) return res.status(500).json({error :"number is required"})
 
-const PORT = 3001 //initilized what port we will use
+  const duplicate = phoneBook.find(item => item.name.toLowerCase() === name.toLowerCase())
+  console.log(duplicate)
+  if(duplicate) return res.status(500).json({ error: 'name must be unique' });  
+
+  const newPerson ={
+    "id": id,
+    "name": name,
+    "number": number
+  }
+  phoneBook.push(newPerson);
+  res.json(newPerson)
+})
 app.listen(PORT, ()=>{
     console.log(`Server running on port ${PORT}`)
 })

@@ -2,8 +2,21 @@ const express = require('express') //import express
 const app = express() // initialized express
 const morgan = require('morgan')
 const PORT = 3001 //initilized what port we will use
+//middleware
+morgan.token('req-body', function (req, res) { // this activate a new morgan parameter that return req body
+  return JSON.stringify(req.body);
+});
+const postMorgan = (req, res, next)=> {
+  if(req.method === 'POST'){
+    morgan(':method :url :status :res[content-length] - :response-time ms :req-body')(req, res, next);
+  }else{
+    next()
+  }
+}
+
 app.use(express.json()); // this 
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
+app.use(postMorgan)
+
 let phoneBook = [ //initilizing dummy data
     { 
       "id": 1,
@@ -68,9 +81,9 @@ app.post("/api/persons", (req, res)=>{
     "name": name,
     "number": number
   }
+
   phoneBook.push(newPerson);
   res.status(200).json(newPerson);
-  console.log(newPerson)
 
 })
 app.listen(PORT, ()=>{

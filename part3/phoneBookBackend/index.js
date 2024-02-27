@@ -1,7 +1,9 @@
 const express = require('express') //import express
 const app = express() // initialized express
+const morgan = require('morgan')
 const PORT = 3001 //initilized what port we will use
 app.use(express.json()); // this 
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
 let phoneBook = [ //initilizing dummy data
     { 
       "id": 1,
@@ -59,7 +61,6 @@ app.post("/api/persons", (req, res)=>{
   if(!number) return res.status(500).json({error :"number is required"})
 
   const duplicate = phoneBook.find(item => item.name.toLowerCase() === name.toLowerCase())
-  console.log(duplicate)
   if(duplicate) return res.status(500).json({ error: 'name must be unique' });  
 
   const newPerson ={
@@ -68,7 +69,9 @@ app.post("/api/persons", (req, res)=>{
     "number": number
   }
   phoneBook.push(newPerson);
-  res.json(newPerson)
+  res.status(200).json(newPerson);
+  console.log(newPerson)
+
 })
 app.listen(PORT, ()=>{
     console.log(`Server running on port ${PORT}`)

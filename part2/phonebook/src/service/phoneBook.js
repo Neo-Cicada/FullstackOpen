@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = "http://localhost:3001/persons"
+const baseUrl = "https://phonebookbackend-7tqt.onrender.com/api/persons"
 
 const postItem = (person) =>{
     return(
